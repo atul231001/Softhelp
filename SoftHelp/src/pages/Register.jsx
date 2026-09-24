@@ -4,11 +4,15 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export default function Register() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    defaultValues: { role: 'OFFICE' }
+  });
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const selectedRole = watch("role");
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -106,6 +110,46 @@ export default function Register() {
                 </select>
               </div>
             </div>
+
+            {selectedRole === "ENGINEER" && (
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-4">
+                    <h3 className="text-sm font-bold text-gray-700">Engineer Location Details</h3>
+                    <p className="text-xs text-gray-500">We need this to assign you nearby jobs.</p>
+                    
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">City</label>
+                        <input 
+                            type="text" 
+                            {...register("city", { required: selectedRole === "ENGINEER" })}
+                            placeholder="e.g. Balaghat"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+                        />
+                        {errors.city && <span className="text-red-500 text-xs">City is required</span>}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Pincode</label>
+                        <input 
+                            type="text" 
+                            {...register("pincode", { required: selectedRole === "ENGINEER" })}
+                            placeholder="e.g. 481001"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+                        />
+                        {errors.pincode && <span className="text-red-500 text-xs">Pincode is required</span>}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Full Address</label>
+                        <textarea 
+                            rows="2"
+                            {...register("address", { required: selectedRole === "ENGINEER" })}
+                            placeholder="e.g. Ward No 5, Near Main Market"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+                        ></textarea>
+                        {errors.address && <span className="text-red-500 text-xs">Address is required</span>}
+                    </div>
+                </div>
+            )}
 
             <div>
               <label className="block text-sm font-medium text-gray-700">Password</label>

@@ -39,9 +39,35 @@ export const register = async (req, res) => {
 
     // If role is ENGINEER, also create an EngineerProfile
     if (role === "ENGINEER") {
+      const { city, pincode, address } = req.body;
+      let coordinates = [0, 0]; // Default
+
+      // Attempt to geocode using Nominatim OpenStreetMap API
+      if (city && pincode && address) {
+          try {
+              const query = encodeURIComponent(`${address}, ${city}, ${pincode}, India`);
+              const geocodeRes = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`, {
+                  headers: { 'User-Agent': 'DistrictFixApp/1.0' }
+              });
+              const data = await geocodeRes.json();
+              if (data && data.length > 0) {
+                  coordinates = [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+              } else {
+                  console.warn("Geocoding returned no results for:", query);
+              }
+          } catch(err) {
+              console.error("Geocoding failed:", err);
+          }
+      }
+
       const newEngineerProfile = new EngineerProfile({
         user: newUser._id,
         experienceYears: req.body.experienceYears || 0,
+        address: `${address}, ${city}, ${pincode}`,
+        location: {
+            type: "Point",
+            coordinates: coordinates
+        }
       });
       await newEngineerProfile.save();
     }

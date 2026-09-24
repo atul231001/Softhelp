@@ -37,7 +37,6 @@ export default function DashboardLayout({ children, role }) {
         title: "MAIN MENU",
         items: [
             { name: 'Dashboard', path: '/engineer/dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
-            { name: 'Nearby Requests', path: '/engineer/nearby-requests', icon: <Map className="w-5 h-5" /> },
         ]
     },
     {
@@ -46,7 +45,6 @@ export default function DashboardLayout({ children, role }) {
             { name: 'My Jobs', path: '/engineer/my-jobs', icon: <FileText className="w-5 h-5" /> },
             { name: 'Messages', path: '/engineer/chats', icon: <MessageSquare className="w-5 h-5" /> },
             { name: 'Wallet', path: '/engineer/wallet', icon: <Wallet className="w-5 h-5" /> },
-            { name: 'Notifications', path: '/engineer/notifications', icon: <Bell className="w-5 h-5" /> },
         ]
     }
   ];
@@ -58,12 +56,6 @@ export default function DashboardLayout({ children, role }) {
             { name: 'Dashboard', path: '/office/dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
             { name: 'My Requests', path: '/office/requests', icon: <FileText className="w-5 h-5" /> },
             { name: 'Messages', path: '/office/chats', icon: <MessageSquare className="w-5 h-5" /> },
-        ]
-    },
-    {
-        title: "NOTIFICATIONS",
-        items: [
-            { name: 'Notifications', path: '/office/notifications', icon: <Bell className="w-5 h-5" /> },
         ]
     }
   ];
